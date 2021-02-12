@@ -1,0 +1,18 @@
+@media screen and (max-width: 768px) {
+  .events-container {
+    flex-direction: column;
+  }
+}
+@media screen and (min-width: 769px) {
+  .events-container {
+    flex-direction: row;
+  }
+}
+
+.MuiPickersCalendarHeader-dayLabel {
+  color: darkgray !important;
+}
+
+.MuiPickersDay-day:not(.MuiPickersDay-hidden) {
+  color: white;
+}

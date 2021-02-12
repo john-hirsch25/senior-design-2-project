@@ -1,0 +1,31 @@
+.transition-wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+.transition-wrapper .transition-item {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+}
+
+.base-page {
+  transition: transform 0.5s, opacity 0.5s;
+}
+
+.transition-appear {
+  opacity: 0;
+}
+
+.transition-appear.transition-appear-active {
+  opacity: 1;
+}
+
+.transition-leave {
+  opacity: 1;
+}
+
+.transition-leave.transition-leave-active {
+  opacity: 0;
+}
