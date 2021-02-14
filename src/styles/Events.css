@@ -16,3 +16,9 @@
 .MuiPickersDay-day:not(.MuiPickersDay-hidden) {
   color: white;
 }
+
+.event-list a:hover {
+  transition: color 0.3s;
+  color: lightgray;
+  cursor: pointer;
+}

@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core';
 import { Calendar, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { useEffect, useState } from 'react';
+import CallMadeIcon from '@material-ui/icons/CallMade';
 
 const useStyles = makeStyles({
   page: {
@@ -56,8 +57,8 @@ function CalendarPage() {
   useEffect(()=>{
     // API call would go here
     addEvents([
-      createEvent("test", new Date(), "test test", "https://www.google.com"),
-      createEvent("test 2", new Date(2021, 2, 9), "test test", "https://www.bing.com"),
+      createEvent("Tampa Covention Center Expo", new Date(), "An event at the local convention hall. Come join us as we talk computer science", "https://www.tampagov.net/tcc/home"),
+      createEvent("Tampa Covention Center Expo", new Date(2021, 2, 9), "An event at the local convention hall. Come join us as we talk computer science", "https://www.bing.com"),
     ]);
   // eslint-disable-next-line
   }, [setEventsList]);
@@ -81,8 +82,11 @@ function CalendarPage() {
               {filteredEvents(calEventsList, calDay).length > 0 &&
                 filteredEvents(calEventsList, calDay).map((value, index) => {
                   return <div>
-                      <h3>{value.name}</h3>
-                      {value.description}
+                      <hr></hr>
+                      <h2>Name: {value.name}</h2>
+                      <h4>Description</h4>
+                      <p>{value.description}</p>
+                      <h4><a href={value.link}>Visit the Website<CallMadeIcon style={{fontSize: '1rem'}}/></a></h4>
                     </div>
                 })
               }
