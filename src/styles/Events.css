@@ -9,11 +9,11 @@
   }
 }
 
-.MuiPickersCalendarHeader-dayLabel {
+.events-container .MuiPickersCalendarHeader-dayLabel {
   color: darkgray !important;
 }
 
-.MuiPickersDay-day:not(.MuiPickersDay-hidden) {
+.events-container .MuiPickersDay-day:not(.MuiPickersDay-hidden) {
   color: white;
 }
 

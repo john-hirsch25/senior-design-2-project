@@ -2,11 +2,15 @@ import '../styles/App.css';
 import '../styles/Events.css';
 import clsx from 'clsx';
 import BasePage from './BasePage';
+import AddIcon from '@material-ui/icons/Add';
 import { makeStyles } from '@material-ui/core';
 import { Calendar, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import { useEffect, useState } from 'react';
 import CallMadeIcon from '@material-ui/icons/CallMade';
+import AddEventDialogButton from '../components/AddEventDialogButton';
+import EventsProvider from '../api/eventbrite/EventsProvider';
+import Constants from '../api/eventbrite/Constants';
 
 const useStyles = makeStyles({
   page: {
@@ -55,18 +59,31 @@ function CalendarPage() {
 
   // "initalization code"
   useEffect(()=>{
-    // API call would go here
-    addEvents([
-      createEvent("Tampa Covention Center Expo", new Date(), "An event at the local convention hall. Come join us as we talk computer science", "https://www.tampagov.net/tcc/home"),
-      createEvent("Tampa Covention Center Expo", new Date(2021, 2, 9), "An event at the local convention hall. Come join us as we talk computer science", "https://www.bing.com"),
-    ]);
+    setEventsList([]);
+    if (window.localStorage.events) {
+      let localEvents = JSON.parse(window.localStorage.events)
+      let localCreatedEvents = []
+      for (let event of localEvents) {
+        localCreatedEvents.push(createEvent(event.name, new Date(event.date), event.description, event.link));
+      }
+      addEvents(localCreatedEvents);
+    }
+    
+    EventsProvider.getEventsByOrganization(Constants.ORGANIZATION_ID).then((events)=>{
+      let parsedEvents = [];
+      for (let event of events) {
+        parsedEvents.push(createEvent(event.name.text, new Date(event.start.local), event.description.text, event.url));
+      }
+      addEvents(parsedEvents);
+    });
   // eslint-disable-next-line
-  }, [setEventsList]);
+  }, [setEventsList, window.localStorage.events]);
 
   return (
     <MuiPickersUtilsProvider utils={DateFnsUtils}>
       <BasePage pageName='Events' title='Events'>
         <div className={clsx(styles.page)}>
+          <AddEventDialogButton><AddIcon/>Add an Event</AddEventDialogButton>
           <div className={'events-container ' + clsx(styles.eventsContainer)}>
             <div className={clsx(styles.calendarContainer)}>
               <Calendar date={calDay} onChange={(date)=>{
@@ -81,7 +98,7 @@ function CalendarPage() {
               }
               {filteredEvents(calEventsList, calDay).length > 0 &&
                 filteredEvents(calEventsList, calDay).map((value, index) => {
-                  return <div>
+                  return <div key={'event-'+index}>
                       <hr></hr>
                       <h2>Name: {value.name}</h2>
                       <h4>Description</h4>
